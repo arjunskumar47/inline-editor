@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>CampusDiaries Demo Task</title>
+		<link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+		<link rel="stylesheet" href="assets/style.css" />
+	</head>
+	<body onload="checkEdits()">
+		<div id="wrapper">
+			<div id='editControls'>
+				<h1>WYSISYG Inline Editor</h1>
+				<div>
+		        	<button onclick="document.execCommand('bold',null,false);" class='fa fa-bold'></button>
+		        	<button onclick="document.execCommand('italic',null,false);" class='fa fa-italic'></button>
+				    <button onclick="document.execCommand('justifyleft',null,false);" class='fa fa-align-left'></button>
+			        <button onclick="document.execCommand('justifycenter',null,false);" class='fa fa-align-center'></button>
+			        <button onclick="document.execCommand('justifyright',null,false);" class='fa fa-align-right'></button>
+			        <button onclick="document.execCommand('justifyfull',null,false);" class='fa fa-align-justify'></button>
+			    </div>
+		    </div>
+		    <div id="editor" contenteditable="true">
+			    <p>This is just some example text to start us off. Type in <i>italics</i> or <b>bold</b> or align accordingly!</p>
+			</div>
+			<button onclick="saveEdits()">Save</button>
+			<div id="saved"></div>
+		</div>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			function saveEdits() {
+				var editableElement = document.getElementById("editor");
+				var editedContent = editableElement.innerHTML;
+				localStorage.userEdits = editedContent;
+				document.getElementById("saved").innerHTML="Recent changes saved!";
+			}
+			function checkEdits() {
+				if(localStorage.userEdits!=null)
+				document.getElementById("editor").innerHTML=localStorage.userEdits;
+			}
+
+			/*
+			 * Allow only plaintext pasting
+			 * http://www.albertmartin.de/blog/code.php/20/plain-text-paste-with-javascript
+			*/
+			$('#editor').bind('paste', function(){
+			    var before = document.getElementById('editor').innerHTML;
+			    setTimeout(function(){
+			        var after = document.getElementById('editor').innerHTML;
+			        var pos1 = -1;
+			        var pos2 = -1;
+			        for (var i=0; i<after.length; i++) {
+			            if (pos1 == -1 && before.substr(i, 1) != after.substr(i, 1)) pos1 = i;
+			            if (pos2 == -1 && before.substr(before.length-i-1, 1) != after.substr(after.length-i-1, 1)) pos2 = i;
+			        }
+			        var pasted = after.substr(pos1, after.length-pos2-pos1);
+			        var replace = pasted.replace(/<[^>]+>/g, '');
+			        var replaced = after.substr(0, pos1)+replace+after.substr(pos1+pasted.length);
+			        document.getElementById('editor').innerHTML = replaced;
+			    }, 100);
+			});
+		</script>
+	</body>	
+</html>

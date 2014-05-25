@@ -1,0 +1,35 @@
+body{
+	background: #ddd;
+	font-family: sans-serif;
+	color: #111;
+}
+#wrapper{
+	background: #eee;
+	width: 80%;
+	margin: 0 auto;
+	padding:20px;
+	border: 1px solid #ccc;
+}
+#editControls {
+  	text-align:center;
+  	padding:5px;
+  	margin:5px;
+}
+#editor {
+	overflow:auto;
+	border:1px solid #ddd;
+	padding: 5px;
+}
+button {
+	font-size: 16px;
+  	color:#111;
+	padding:5px;
+	border:1px solid #111;
+	border-radius:5px;
+}
+#saved{
+	width:100%;
+	padding: 6px;
+	text-align: center;
+	font-style: italic;
+}
